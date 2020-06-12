@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>仲园24h资料库</title>
+    <meta http-equiv="Content-Type" content="text/html; charset = UTF-8"/>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.jpg">
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/community.css">
+    <script src="common/jquery-1.11.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--顶部-->
+<div th:insert="~{navigation :: nav}"></div>
+<!--middle-->
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="jumbotron col-lg-12 col-md-12 col-sm-12 col-xs-12 jum-word">
+        <h2>欢迎来到仲园24h资料库。</h2>
+        <form action="/" class="search-form" method="get">
+            <div class="form-group">
+                <input type="text" class="form-control file-search" name="search" placeholder="请输入要搜索的文件，多特性的话请使用空格分隔开">
+            </div>
+            <button class="btn btn-primary btn-lg search-button" role="button">搜索</button>
+        </form>
+        <table class="table table-hover col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <tr>
+                <td class="active">序号</td>
+                <td class="success">文件名</td>
+                <td class="warning">云盘链接</td>
+                <td class="danger">提供者</td>
+                <td class="info">收录时间</td>
+            </tr>
+            <tr th:each="file :${pageDto.T}">
+                <td class="active" th:text="${file.Id}"></td>
+                <td class="success" th:text="${file.fileName}"></td>
+                <td class="warning" th:text="${file.fileUrl}"></td>
+                <td class="danger" th:text="${file.creator}"></td>
+                <td class="info" th:text="${#dates.format(file.fileCreateTime,'yy MMMM HH ')}"></td>
+            </tr>
+        </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li th:if="${pageDto.showFirstPage}">
+                    <a th:href="@{/(pageIndex=1,search=${search})}">
+                        <span aria-hidden="true">&lt;&lt;</span>
+                    </a>
+                </li>
+                <li th:if="${pageDto.showPrevious}">
+                    <a th:href="@{/(pageIndex=${pageDto.currentPage -1},search=${search})}" aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+                <li th:class="${pageDto.currentPage == page}?'active':''" th:each="page : ${pageDto.pageLists}"><a href="/" th:text="${page}" th:href="@{/(pageIndex = ${page},search=${search})}"></a></li>
+                <li th:if="${pageDto.showNext}">
+                    <a th:href="@{/(pageIndex=${pageDto.currentPage +1},search=${search})}" aria-label="Previous">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li th:if="${pageDto.showEndPage}">
+                    <a th:href="@{/(pageIndex=${pageDto.totalPage},search=${search})}" aria-label="Next">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <h4>
+            仲园24h致力于服务仲园学子，提供一定的便利，做仲园学子自己的公众号，勿让营销文化毒害仲园学子。<br/>
+            资料都来自团队小伙伴的收集与整理，目前仅能提供百度网盘下载链接，如果发现文件过期失效，请及时在公众号后台发消息给我们哦！<br/>
+            如果你也有可以分享的资料，无论是什么，可以是ppt等等都可以提供给我们，我们会将文件上传至网页，并注明来源。<br/>
+            期望我们能与你有一个美好！
+        </h4>
+    </div>
+    <!--<div class="jumbotron col-lg-6 col-md-12 col-sm-12 col-xs-12">-->
+        <!--<img src="/images/erweima.jpg" alt="">-->
+    <!--</div>-->
+    <!--<div class="jumbotron col-lg-6 col-md-12 col-sm-12 col-xs-12"></div>-->
+</div>
+</body>
